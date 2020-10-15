@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap");
+        body {
+            background-color: rgb(235, 236, 245);
+        }
+        
+        .main {
+            display: flex;
+        }
+        
+        .income-form-div,
+        .income,
+        .expense-form-div,
+        .expense {
+            width: 40%;
+            padding: 2% 0;
+            box-shadow: 0 2px 5px 2px rgb(212, 212, 228);
+            font-family: 'Montserrat', sans-serif;
+            margin: 2%;
+            background-color: white;
+        }
+        
+        .income-body h1 {
+            color: rgb(105, 185, 24);
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        .expense-body h1 {
+            color: orangered;
+            font-family: 'Libre Baskerville', serif;
+        }
+        
+        input {
+            display: block;
+            margin: 1% 0;
+            height: 30px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        button {
+            background-color: rgb(105, 185, 24);
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 14px 14%;
+            margin: 5% 0;
+            border-radius: 30px;
+        }
+        
+        .expense-body button {
+            background-color: orangered;
+        }
+        
+        .income-records,
+        .expense-records {
+            display: flex;
+        }
+        
+        .income-records p,
+        .expense-records p {
+            flex: 1;
+            padding: 1% 2%;
+            font-size: 18px;
+            border-bottom: 1px solid rgb(184, 177, 177);
+        }
+        
+        .total {
+            box-shadow: 0 2px 5px 2px rgb(212, 212, 228);
+            width: 90%;
+            padding: 2%;
+            background-color: white;
+            font-family: 'Montserrat', sans-serif;
+            margin: auto;
+        }
+        
+        .inc-total,
+        .exp-total,
+        .savings {
+            display: flex;
+        }
+        
+        .inc-total p,
+        .exp-total p,
+        .savings p {
+            flex: 1;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .update {
+            color: rgb(21, 21, 247);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .delete {
+            color: rgb(231, 25, 25);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div class="income-body">
+            <div class="income-form-div">
+                <center>
+                    <h1>Income</h1>
+                    <!--income form-->
+                    <form action="" method="POST">
+                        {% csrf_token %} {{form1}}
+                        <button type="submit">ADD</button>
+                    </form>
+                </center>
+            </div>
+
+            <div class="income">
+                <center>
+                    <h1>Income Records</h1>
+                </center>
+                <!-- for loop to build the objects -->
+                {% for income in income_list %}
+                <div class="income-records">
+                    <p>{{income.income_source}}</p>
+                    <p>{{income.income_amount}}</p>
+                    <p>{{income.income_time}}</p>
+                    <p><a class="update" href="{% url 'income-update' income.id %}">Update</a></p>
+                    <p><a class="delete" href="{% url 'income-delete' income.id %}">Delete</a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+        <div class="expense-body">
+            <div class="expense-form-div">
+                <center>
+                    <h1>Expenses</h1>
+                    <!--expense form-->
+                    <form action="" method="POST">
+                        {% csrf_token %} {{form2}}
+                        <button type="submit">ADD</button>
+                    </form>
+                </center>
+            </div>
+
+            <div class="expense">
+                <center>
+                    <h1>Expenses Records</h1>
+                </center>
+                <!-- for loop to build the objects -->
+                {% for expense in expense_list %}
+                <div class="expense-records">
+                    <p>{{expense.expense_source}}</p>
+                    <p>{{expense.expense_amount}}</p>
+                    <p>{{expense.expense_time}}</p>
+                    <p><a class="update" href="{% url 'expense-update' expense.id %}">Update</a></p>
+                    <p><a class="delete" href="{% url 'expense-delete' expense.id %}">Delete</a></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </center>
+
+    <div class=" total ">
+        <div class="inc-total ">
+            <p style="color: rgb(105, 185, 24); ">Income total</p>
+            <p>{{income_total}}</p>
+        </div>
+        <div class="exp-total ">
+            <p style="color: orangered; ">Expenses total</p>
+            <p>{{expense_total}}</p>
+        </div>
+        <div class="savings ">
+            <p>Savings</p>
+            <p>{{savings}}</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
